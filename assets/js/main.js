@@ -151,7 +151,9 @@ const applySEO = (seo) => {
   setMeta('twitter:title', title);
   setMeta('twitter:description', description);
   setMeta('twitter:image', image);
-  if (canonical) {\n+    setMetaProperty('og:url', canonical);\n+  }
+  if (canonical) {
+    setMetaProperty('og:url', canonical);
+  }
 
   const canonicalLink = document.querySelector('link[rel="canonical"]');
   if (canonicalLink) {
