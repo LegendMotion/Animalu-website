@@ -1,11 +1,11 @@
-const DATA_PATH = '/data/artist.md';
+const DATA_PATH = 'data/artist.md';
 
 const defaultData = {
   artist: { name: 'Animalu', tagline: 'Raw emotion. Honest lyrics. No filters.' },
   seo: {
     title: 'Animalu – Official Artist Site',
     description: 'Official website for Animalu. New music, live shows, videos and booking.',
-    og_image: '/assets/img/og-image.svg',
+    og_image: 'assets/img/og-image.svg',
   },
 };
 
