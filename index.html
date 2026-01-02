@@ -10,65 +10,76 @@
 </head>
 <body>
 
-<header class="hero">
-  <img src="assets/img/artist.jpg" alt="Animalu">
-  <h1>Animalu</h1>
-  <p>Underground hip-hop. Raw. Honest. Independent.</p>
-  <a class="btn" href="#latest">Latest release</a>
-  <a class="btn" href="#booking">Booking</a>
-</header>
+<section class="hero">
+  <div class="container hero-content">
+    <h1>Animalu</h1>
+    <p class="tagline">Underground hip-hop. Raw. Honest. Independent.</p>
+    <a href="#latest" class="btn">Latest release</a>
+    <a href="#booking" class="btn">Booking</a>
+  </div>
+</section>
 
 <section id="latest">
-  <h2>Latest release</h2>
-  <div class="embed" data-youtube-channel="UCpcGPUVJ-xeLXNtMEkoLJhA"></div>
+  <div class="container">
+    <h2>Latest release</h2>
+    <div class="embed" data-youtube-channel="UCpcGPUVJ-xeLXNtMEkoLJhA"></div>
+  </div>
 </section>
 
 <section id="spotify">
-  <h2>Spotify</h2>
-  <div class="embed">
-    <iframe loading="lazy" height="352"
-      src="https://open.spotify.com/embed/artist/placeholder">
-    </iframe>
+  <div class="container">
+    <h2>Spotify</h2>
+    <div class="embed">
+      <p>Listen and follow on Spotify.</p>
+      <a class="btn" href="#" onclick="alert('Spotify link should come from artist.md')">Open Spotify</a>
+    </div>
   </div>
 </section>
 
 <section id="tiktok">
-  <h2>TikTok</h2>
-  <p>Follow on TikTok for clips, snippets and behind the scenes.</p>
+  <div class="container">
+    <h2>TikTok</h2>
+    <div class="embed">
+      <p>Follow for clips, snippets and behind the scenes.</p>
+    </div>
+  </div>
 </section>
 
 <section id="shows">
-<h2>Live shows</h2>
-
-<script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
-<a class="bit-widget-initializer"
-data-artist-name="id_15473994"
-data-background-color="rgba(97,86,86,0)"
-data-separator-color="rgba(255,99,99,1)"
-data-text-color="rgba(255,255,255,1)"
-data-display-past-dates="true"
-data-display-details="false"
-data-display-lineup="false"
-data-display-start-time="false"
-data-display-limit="all"
-data-event-ticket-cta-bg-color="rgba(208,2,27,1)"
-data-event-ticket-cta-text-color="#FFFFFF"
-data-language="en"
-data-layout-breakpoint="900"
-data-app-id="a8edf27028eb2ed38a51403a80531a44"
-data-bit-logo-position="hidden"
-></a>
-
+  <div class="container">
+    <h2>Live shows</h2>
+    <div class="embed">
+      <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
+      <a class="bit-widget-initializer"
+        data-artist-name="id_15473994"
+        data-background-color="rgba(0,0,0,0)"
+        data-text-color="rgba(255,255,255,1)"
+        data-display-past-dates="true"
+        data-display-details="false"
+        data-display-lineup="false"
+        data-display-start-time="false"
+        data-display-limit="all"
+        data-event-ticket-cta-bg-color="rgba(208,2,27,1)"
+        data-event-ticket-cta-text-color="#FFFFFF"
+        data-language="en"
+        data-layout-breakpoint="900"
+        data-app-id="a8edf27028eb2ed38a51403a80531a44"
+        data-bit-logo-position="hidden"
+      ></a>
+    </div>
+  </div>
 </section>
 
 <section id="booking">
-  <h2>Booking / Contact</h2>
-  <p>For bookings and press inquiries, contact via email.</p>
-  <p><a href="mailto:booking@animalu.com">booking@animalu.com</a></p>
+  <div class="container">
+    <h2>Booking / Contact</h2>
+    <p>For bookings and press inquiries:</p>
+    <p><a href="mailto:booking@animalu.com">booking@animalu.com</a></p>
+  </div>
 </section>
 
 <footer>
-  <p>© Animalu</p>
+  © Animalu
 </footer>
 
 </body>
