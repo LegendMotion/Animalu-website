@@ -1,249 +1,79 @@
+
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#d0021b" />
-  <title>Animalu</title>
-  <meta name="description" content="Official artist website." />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Animalu" />
-  <meta property="og:description" content="Official artist website." />
-  <meta property="og:image" content="assets/img/og-image.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Animalu" />
-  <meta name="twitter:description" content="Official artist website." />
-  <meta name="twitter:image" content="assets/img/og-image.jpg" />
-
-  <link rel="canonical" href="" />
-  <link rel="preload" href="assets/css/styles.css" as="style" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+<meta charset="utf-8">
+<title>Animalu</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="assets/css/styles.css">
+<script defer src="assets/js/main.js"></script>
 </head>
-
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
 
 <header>
-  <div class="container">
-    <nav class="nav" aria-label="Primary">
-      <a class="brand" href="#top">
-        <span class="dot" aria-hidden="true"></span>
-        <span id="navName">Animalu</span>
-      </a>
-
-      <div class="nav-links" aria-label="Sections">
-        <a href="#latest">Latest</a>
-        <a href="#spotify">Spotify</a>
-        <a href="#tiktok">TikTok</a>
-        <a href="#shows">Shows</a>
-        <a href="#booking">Booking</a>
-      </div>
-
-      <div class="nav-cta">
-        <a class="btn small" href="#latest">Latest release</a>
-        <a class="btn small primary" href="#booking">Booking</a>
-      </div>
-    </nav>
-  </div>
+  <h1>Animalu</h1>
+  <a class="btn" href="#latest">Latest release</a>
+  <a class="btn" href="#booking">Booking</a>
 </header>
 
-<main id="main">
+<section id="latest">
+  <h2>Latest release</h2>
+  <div data-youtube-channel="UCpcGPUVJ-xeLXNtMEkoLJhA"></div>
+</section>
 
-  <!-- 1) HERO -->
-  <section class="hero" id="top">
-    <div class="container">
-      <div class="hero-grid">
-        <div class="reveal">
-          <p class="kicker">Official artist site</p>
-          <h1 id="artistName">Animalu</h1>
-          <p class="tagline" id="artistTagline">Raw emotion. Honest lyrics. No filters.</p>
+<section id="shows">
+<h2>Live shows</h2>
 
-          <div class="btn-row">
-            <a class="btn primary" href="#latest">Latest release</a>
-            <a class="btn" href="#booking">Booking</a>
-          </div>
+<script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
+<a class="bit-widget-initializer"
+data-artist-name="id_15473994"
+data-events-to-display=""
+data-background-color="rgba(97,86,86,0)"
+data-separator-color="rgba(255,99,99,1)"
+data-text-color="rgba(255,255,255,1)"
+data-font="Arial"
+data-auto-style="true"
+data-button-label-capitalization="capitalize"
+data-header-capitalization="uppercase"
+data-location-capitalization="capitalize"
+data-venue-capitalization="capitalize"
+data-display-local-dates="true"
+data-local-dates-position="tab"
+data-display-past-dates="true"
+data-display-details="false"
+data-display-lineup="false"
+data-display-start-time="false"
+data-social-share-icon="false"
+data-display-limit="all"
+data-date-format="MMM. D, YYYY"
+data-date-orientation="horizontal"
+data-date-border-color="#4A4A4A"
+data-date-border-width="1px"
+data-date-capitalization="capitalize"
+data-date-border-radius="10px"
+data-event-ticket-cta-size="medium"
+data-event-ticket-text="TICKETS"
+data-event-ticket-cta-text-color="#FFFFFF"
+data-event-ticket-cta-bg-color="rgba(208,2,27,1)"
+data-event-ticket-cta-border-color="rgba(208,2,27,1)"
+data-event-ticket-cta-border-width="0px"
+data-event-ticket-cta-border-radius="4px"
+data-language="en"
+data-layout-breakpoint="900"
+data-app-id="a8edf27028eb2ed38a51403a80531a44"
+data-bit-logo-position="hidden"
+></a>
 
-          <div class="pill-row" aria-label="Highlights">
-            <span class="pill">Hip-hop</span>
-            <span class="pill">Rap</span>
-            <span class="pill">New releases</span>
-          </div>
+</section>
 
-          <div class="divider"></div>
-          <div class="markdown" id="about"></div>
-        </div>
-
-        <div class="hero-card reveal">
-          <div class="hero-media">
-            <img id="artistImg" src="assets/img/artist.jpg" alt="Artist photo" loading="lazy"
-                 onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';" />
-            <div class="fallback" id="heroFallback" style="display:none;">ANIMALU</div>
-          </div>
-          <div class="caption">
-            <span class="badge">Music • Videos • Shows</span>
-            <div style="margin-top:10px" id="heroMeta" class="meta">Update one file: <strong>data/artist.md</strong></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 2) LATEST RELEASE -->
-  <section id="latest">
-    <div class="container">
-      <div class="meta-row reveal">
-        <div>
-          <h2 class="section-title">Latest release</h2>
-          <p class="section-lede">Pulled automatically from the music-only YouTube RSS feed.</p>
-        </div>
-        <div class="meta">
-          <span id="latestMeta">Loading…</span>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="embed youtube" id="latestEmbed">
-          <div class="notice">Latest release will load when you scroll here.</div>
-        </div>
-        <div style="margin-top:14px" class="meta">
-          <div><strong id="latestTitle">—</strong></div>
-          <div id="latestDate">—</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3) SPOTIFY -->
-  <section id="spotify">
-    <div class="container">
-      <div class="meta-row reveal">
-        <div>
-          <h2 class="section-title">Spotify</h2>
-          <p class="section-lede">Follow Animalu and stay updated.</p>
-        </div>
-        <div class="btn-row">
-          <a class="btn small" id="spotifyFollow" href="#" target="_blank" rel="noopener">Open on Spotify</a>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="embed" id="spotifyEmbed">
-          <div class="notice">Spotify embed will load when you scroll here.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4) TIKTOK -->
-  <section id="tiktok">
-    <div class="container">
-      <div class="meta-row reveal">
-        <div>
-          <h2 class="section-title">TikTok</h2>
-          <p class="section-lede">Clips, hooks, bars, behind the scenes.</p>
-        </div>
-        <div class="btn-row">
-          <a class="btn small" id="tiktokOpen" href="#" target="_blank" rel="noopener">Open TikTok</a>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div id="tiktokEmbed">
-          <div class="notice">TikTok embed will load when you scroll here.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5) LIVE SHOWS -->
-  <section id="shows">
-    <div class="container">
-      <div class="meta-row reveal">
-        <div>
-          <h2 class="section-title">Live shows</h2>
-          <p class="section-lede">Tour dates and tickets powered by Bandsintown.</p>
-        </div>
-        <div class="btn-row">
-          <a class="btn small" id="bitOpen" href="#" target="_blank" rel="noopener">Bandsintown</a>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div id="bitWidget">
-          <div class="notice">Bandsintown widget will load when you scroll here. If it doesn’t, use the link above.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6) BOOKING -->
-  <section id="booking">
-    <div class="container">
-      <div class="meta-row reveal">
-        <div>
-          <h2 class="section-title">Booking / Contact</h2>
-          <p class="section-lede">For bookings, collaborations, press and inquiries.</p>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="markdown">
-          <p><strong id="bookingName">—</strong></p>
-          <p>
-            <a id="bookingEmail" href="#">—</a><br/>
-            <span id="bookingPhoneWrap" style="display:none;">Phone: <a id="bookingPhone" href="#"></a><br/></span>
-            <span id="bookingPresskitWrap" style="display:none;">Presskit: <a id="bookingPresskit" href="#" target="_blank" rel="noopener">Open</a></span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
+<section id="booking">
+<h2>Booking</h2>
+<p>Contact via artist.md</p>
+</section>
 
 <footer>
-  <div class="container">
-    <div class="footer-row">
-      <div>
-        <div style="font-weight:800; color: rgba(255,255,255,0.9); letter-spacing:0.08em; text-transform:uppercase" id="footerName">Animalu</div>
-        <div style="margin-top:6px">© <span id="year"></span> <span id="footerName2">Animalu</span>. All rights reserved.</div>
-      </div>
-
-      <div class="social" aria-label="Social links">
-        <a class="icon-link" id="iconSpotify" href="#" target="_blank" rel="noopener" aria-label="Spotify">
-          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.53 17.37c-.22.36-.69.48-1.05.26-2.87-1.75-6.48-2.15-10.74-1.17-.41.09-.82-.16-.91-.57-.09-.41.16-.82.57-.91 4.63-1.06 8.6-.61 11.79 1.35.36.22.48.69.26 1.04zm1.5-3.33c-.28.46-.88.61-1.34.33-3.29-2.02-8.3-2.6-12.17-1.42-.52.16-1.07-.13-1.23-.65-.16-.52.13-1.07.65-1.23 4.42-1.34 9.9-.69 13.69 1.64.46.28.61.88.33 1.33zm.13-3.47C15.3 8.29 8.53 8.08 4.93 9.18c-.62.19-1.28-.16-1.47-.78-.19-.62.16-1.28.78-1.47 4.13-1.26 11.62-1.02 15.96 1.56.56.33.74 1.05.41 1.61-.33.55-1.05.73-1.61.4z"/></svg>
-        </a>
-        <a class="icon-link" id="iconTikTok" href="#" target="_blank" rel="noopener" aria-label="TikTok">
-          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M21 8.5c-1.9 0-3.6-.7-4.9-1.9V16c0 3.6-2.9 6.5-6.5 6.5S3.1 19.6 3.1 16s2.9-6.5 6.5-6.5c.4 0 .8 0 1.2.1v3.1c-.4-.1-.8-.2-1.2-.2-1.9 0-3.4 1.5-3.4 3.4s1.5 3.4 3.4 3.4 3.4-1.5 3.4-3.4V1.5h3.2c.3 3 2.8 5.4 5.8 5.4v1.6z"/></svg>
-        </a>
-        <a class="icon-link" id="iconInstagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.6-2.4a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
-        </a>
-        <a class="icon-link" id="iconFacebook" href="#" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.6 1.6-1.6h1.6V4.9c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V11H7v3h2.6v8h3.9z"/></svg>
-        </a>
-        <a class="icon-link" id="iconYouTube" href="#" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.5V8.5L15.8 12l-6.2 3.5z"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
+<p>© Animalu</p>
 </footer>
 
-<noscript>
-  <div class="container" style="padding:20px 20px 70px;">
-    <div class="notice">
-      This site loads its content from <strong>/data/artist.md</strong>. JavaScript is required to render embeds and live data.
-    </div>
-  </div>
-</noscript>
-
-<script defer src="assets/js/main.js"></script>
 </body>
 </html>
