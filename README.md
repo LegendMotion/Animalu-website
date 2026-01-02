@@ -82,3 +82,13 @@ This project intentionally does **not** hardcode any domain name.
 - If some fields are missing in `artist.md`, the site shows a graceful placeholder and logs a console warning.
 - If the phrase **“Intellectual Dummy”** ever appears inside the markdown body, it will be replaced with **“Animalu”** before rendering.
 
+
+
+## Local preview (recommended)
+
+If you unzip and double-click `index.html`, some browsers may block `fetch()` calls. Preview via a tiny local server instead:
+
+```bash
+python3 -m http.server 8080
+# then open http://localhost:8080
+```

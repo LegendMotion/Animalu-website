@@ -223,7 +223,7 @@
   }
 
   async function loadArtist() {
-    const res = await fetch('/data/artist.md', { cache: 'no-store' });
+    const res = await fetch('data/artist.md', { cache: 'no-store' });
     if (!res.ok) throw new Error(`Failed to fetch /data/artist.md (${res.status})`);
     const text = await res.text();
     const fm = splitFrontmatter(text);
@@ -244,7 +244,7 @@
     // SEO meta from artist.md
     const title = get(data, 'seo.title') || (warnMissing('seo.title'), name);
     const description = get(data, 'seo.description') || (warnMissing('seo.description'), '');
-    const ogImage = get(data, 'seo.og_image') || '/assets/img/og-image.jpg';
+    const ogImage = get(data, 'seo.og_image') || 'assets/img/og-image.jpg';
     document.title = title;
     setMeta('description', description);
     setOg('og:title', title);
@@ -347,6 +347,7 @@
       }
       $('#latestMeta').textContent = 'Fetching from YouTube RSS…';
       const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(ctx.ytChannelId)}`;
+      const rssFallbackUrl = `https://r.jina.ai/${rssUrl}`;
 
       try {
         const res = await fetch(rssUrl);
