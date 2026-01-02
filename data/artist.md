@@ -27,7 +27,7 @@ spotify:
 
 tiktok:
   profile_url: "https://www.tiktok.com/@realanimalu"
-  embed_type: "profile"
+  embed_type: "creator"
   unique_id: "realanimalu"
 
 youtube:
@@ -56,7 +56,3 @@ booking:
 
 Animalu is a hip-hop artist focused on raw emotion, honest storytelling, and sound without compromise.  
 The music explores vulnerability, mental health, and real-life experiences – delivered with intensity and authenticity.
-
-This site is designed to stay updated automatically:
-- **Latest release** is pulled from Animalu’s YouTube music/topic channel (music-only).
-- Social links, embeds, concerts and booking are controlled by updating this file only.
