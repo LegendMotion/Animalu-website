@@ -1,237 +1,183 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Animalu</title>
-  <meta name="description" content="Official website for Animalu." />
-  <link rel="icon" href="/assets/img/og-image.jpg" />
-  <link rel="preload" as="image" href="/assets/img/artist.jpg" />
-  <link rel="stylesheet" href="/assets/css/styles.css" />
-  <meta property="og:title" content="Animalu" />
-  <meta property="og:description" content="Official website for Animalu." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animalu – Official Artist Site</title>
+  <meta name="description" content="Official website for Animalu. New music, live shows, videos and booking." />
+  <link rel="canonical" href="" />
+  <meta property="og:title" content="Animalu – Official Artist Site" />
+  <meta property="og:description" content="Official website for Animalu. New music, live shows, videos and booking." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/assets/img/og-image.jpg" />
+  <meta property="og:image" content="/assets/img/og-image.svg" />
+  <meta property="og:url" content="/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="/assets/img/og-image.jpg" />
-  <script defer src="/assets/js/main.js"></script>
+  <meta name="twitter:title" content="Animalu – Official Artist Site" />
+  <meta name="twitter:description" content="Official website for Animalu. New music, live shows, videos and booking." />
+  <meta name="twitter:image" content="/assets/img/og-image.svg" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <script type="application/ld+json" id="artist-jsonld">
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      "name": "Animalu",
+      "url": "/",
+      "sameAs": []
+    }
+  </script>
 </head>
-
 <body>
-  <a class="skip" href="#main">Skip to content</a>
-
-  <header class="hero" role="banner">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="container hero-inner">
-      <div class="kicker"><span class="dot"></span><span>Official artist site</span></div>
-      <h1 id="artistName">Animalu</h1>
-      <p class="tagline" id="tagline">Raw emotion. Honest lyrics. No filters.</p>
-
-      <div class="cta-row">
-        <a class="btn primary" href="#latest" aria-label="Jump to latest release">
-          <!-- play icon -->
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14l12-7-12-7Z" fill="currentColor"/></svg>
-          <span id="latestLabel">Latest release</span>
+  <div class="background-grit" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="container">
+      <span class="logo">Animalu</span>
+      <nav class="social-mini" aria-label="Social links">
+        <a class="icon-link" href="#" data-social="spotify" aria-label="Spotify">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 14.4a.9.9 0 0 1-1.2.3c-3.2-2-7.3-2.4-12.1-1.2a.9.9 0 1 1-.4-1.7c5.2-1.3 9.8-.8 13.4 1.4.4.3.5.8.3 1.2Zm1.7-3.2a1.1 1.1 0 0 1-1.5.4c-3.7-2.2-9.3-2.9-13.6-1.6a1.1 1.1 0 1 1-.6-2c4.9-1.5 11.1-.7 15.3 1.9.5.3.7 1 .4 1.3Zm.1-3.4C14.1 7.5 7.4 7.4 3.5 8.6a1.2 1.2 0 1 1-.7-2.3c4.5-1.3 12-1.2 16.7 1.6a1.2 1.2 0 0 1-1.1 2Z" /></svg>
         </a>
-        <a class="btn" href="#booking" aria-label="Jump to booking">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4H4v16h16V4Zm-2 4-6 4-6-4V6l6 4 6-4v2Z" fill="currentColor"/></svg>
-          Booking
+        <a class="icon-link" href="#" data-social="instagram" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7Zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10Zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5Zm0 2A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5Zm5-3.3a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2Z" /></svg>
         </a>
-      </div>
-
-      <div class="meta-row" aria-label="Quick links">
-        <span class="pill">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v10l6 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span>New music</span>
-        </span>
-        <span class="pill">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16M6 4h12M6 12h12M8 16h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span>Shows</span>
-        </span>
-        <span class="pill">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm8 9a8 8 0 0 0-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span>Booking</span>
-        </span>
-      </div>
+        <a class="icon-link" href="#" data-social="tiktok" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2h-2.7v12.1a3.2 3.2 0 1 1-2.3-3.1V8.2a6.4 6.4 0 1 0 4.8 6.2V7.6c1.2.9 2.6 1.4 4.1 1.4V6.3c-1.6 0-3-.7-3.9-1.9Z" /></svg>
+        </a>
+      </nav>
     </div>
   </header>
 
-  <main id="main" role="main">
-    <!-- 2) Latest release -->
-    <section id="latest">
-      <div class="container reveal">
-        <div class="section-head">
-          <div>
-            <h2>Latest release</h2>
-            <p class="section-sub">Pulled automatically from the music-only YouTube RSS feed.</p>
+  <main>
+    <section class="hero" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <p class="eyebrow">Official Artist Site</p>
+          <h1>Animalu</h1>
+          <p class="tagline" data-field="tagline">Raw emotion. Honest lyrics. No filters.</p>
+          <div class="cta-group">
+            <a class="btn btn-primary" href="#latest">Latest release</a>
+            <a class="btn btn-ghost" href="#booking">Booking</a>
+          </div>
+          <div class="about" data-field="about">
+            <p>Loading artist story…</p>
           </div>
         </div>
-
-        <div class="card">
-          <div class="embed-wrap" id="latestRelease">
-            <div class="ratio" aria-label="Latest release placeholder"></div>
-          </div>
-          <div class="smallmeta">
-            <div><span id="latestTitle">Loading…</span></div>
-            <div>• <time id="latestDate"></time></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3) Spotify artist -->
-    <section id="spotify">
-      <div class="container reveal">
-        <div class="section-head">
-          <div>
-            <h2>Spotify artist</h2>
-            <p class="section-sub">Listen on Spotify and hit follow.</p>
-          </div>
-          <a class="btn primary" id="spotifyFollow" href="#" target="_blank" rel="noopener" aria-label="Open Spotify artist page">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 14.6a.8.8 0 0 1-1.1.27c-3-1.84-6.78-2.26-11.23-1.25a.8.8 0 1 1-.36-1.56c4.86-1.11 9.03-.63 12.35 1.4a.8.8 0 0 1 .35 1.14Zm1.58-3.25a1 1 0 0 1-1.37.33c-3.43-2.1-8.66-2.7-12.72-1.47a1 1 0 1 1-.58-1.92c4.6-1.39 10.32-.71 14.2 1.67a1 1 0 0 1 .47 1.39Zm.13-3.38C14.2 7.45 7.42 7.26 3.72 8.38a1.2 1.2 0 0 1-.7-2.3c4.24-1.29 11.73-1.04 16.3 1.67a1.2 1.2 0 0 1-1.01 2.22Z" fill="currentColor"/></svg>
-            Follow
-          </a>
-        </div>
-
-        <div class="card">
-          <div class="embed-wrap" id="spotifyEmbed">
-            <div class="ratio" style="aspect-ratio:16/6"></div>
+        <div class="hero-media reveal" aria-hidden="true">
+          <div class="poster">
+            <img src="/assets/img/artist.svg" alt="" loading="lazy" />
+            <span class="poster-glow"></span>
+            <span class="poster-text">Stage. Street. Truth.</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4) TikTok -->
-    <section id="tiktok">
-      <div class="container reveal">
-        <div class="section-head">
-          <div>
-            <h2>TikTok</h2>
-            <p class="section-sub">Clips, snippets, behind the scenes. Script loads only when visible.</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="embed-wrap" id="tiktokEmbed">
-            <div class="notice">Loading TikTok…</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5) Live shows -->
-    <section id="shows">
-      <div class="container reveal">
-        <div class="section-head">
-          <div>
-            <h2>Live shows</h2>
-            <p class="section-sub" id="showsSub">Tour dates and tickets powered by Bandsintown.</p>
-          </div>
-          <a class="btn" id="bitFallback" href="#" target="_blank" rel="noopener" aria-label="Open Bandsintown artist page">Open Bandsintown</a>
-        </div>
-
-        <div class="card">
-          <div class="embed-wrap" id="bitWrap">
-            <div class="notice">Loading shows…</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6) Booking / Contact -->
-    <section id="booking">
-      <div class="container reveal">
-        <div class="section-head">
-          <div>
-            <h2>Booking / Contact</h2>
-            <p class="section-sub">Direct contact for bookings and press.</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="grid-2">
-            <div class="kv">
-              <div class="row"><div class="label">Contact</div><div class="value" id="bookingName">—</div></div>
-              <div class="row"><div class="label">Email</div><div class="value"><a id="bookingEmail" href="#">—</a></div></div>
-              <div class="row"><div class="label">Phone</div><div class="value"><a id="bookingPhone" href="#"></a></div></div>
-              <div class="row"><div class="label">Presskit</div><div class="value"><a id="bookingPresskit" href="#" target="_blank" rel="noopener"></a></div></div>
-
-              <div class="notice">Everything on this site is controlled via <code>data/artist.md</code>.</div>
-
-              <div class="social-row" aria-label="Social links">
-                <a class="icon-btn" data-social="spotify" href="#" target="_blank" rel="noopener" aria-label="Spotify">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm4.6 14.6a.8.8 0 0 1-1.1.27c-3-1.84-6.78-2.26-11.23-1.25a.8.8 0 1 1-.36-1.56c4.86-1.11 9.03-.63 12.35 1.4a.8.8 0 0 1 .35 1.14Zm1.58-3.25a1 1 0 0 1-1.37.33c-3.43-2.1-8.66-2.7-12.72-1.47a1 1 0 1 1-.58-1.92c4.6-1.39 10.32-.71 14.2 1.67a1 1 0 0 1 .47 1.39Zm.13-3.38C14.2 7.45 7.42 7.26 3.72 8.38a1.2 1.2 0 0 1-.7-2.3c4.24-1.29 11.73-1.04 16.3 1.67a1.2 1.2 0 0 1-1.01 2.22Z"/></svg>
-                  </span>
-                  Spotify
-                </a>
-
-                <a class="icon-btn" data-social="tiktok" href="#" target="_blank" rel="noopener" aria-label="TikTok">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82c.7.5 1.53.8 2.4.85V9.1c-1.55.05-3-.45-4.15-1.35v7.45c0 3.12-2.53 5.65-5.65 5.65S3.55 18.32 3.55 15.2s2.53-5.65 5.65-5.65c.3 0 .6.02.88.07v2.6a3.07 3.07 0 0 0-.88-.13 3.11 3.11 0 1 0 3.11 3.11V3h2.53c.2 1.17.85 2.2 1.76 2.82Z"/></svg>
-                  </span>
-                  TikTok
-                </a>
-
-                <a class="icon-btn" data-social="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 6.8a1.2 1.2 0 1 1-1.2-1.2A1.2 1.2 0 0 1 18 6.8Z"/></svg>
-                  </span>
-                  Instagram
-                </a>
-
-                <a class="icon-btn" data-social="facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.2c0-.9.2-1.5 1.5-1.5H16.7V5.1c-.4-.1-1.6-.2-3-.2-3 0-5 1.8-5 5.2V11H6v3h2.7v8h4.8Z"/></svg>
-                  </span>
-                  Facebook
-                </a>
-
-                <a class="icon-btn" data-social="youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube">
-                  <span class="icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29.2 29.2 0 0 0 2 12a29.2 29.2 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29.2 29.2 0 0 0 22 12a29.2 29.2 0 0 0-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>
-                  </span>
-                  YouTube
-                </a>
-              </div>
-            </div>
-
-            <div class="side">
-              <div id="aboutBody" aria-label="About content">
-                <!-- markdown body rendered here -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7) Footer -->
-    <footer>
+    <section class="section" id="latest" data-embed="youtube">
       <div class="container">
-        <div class="footer-inner">
-          <div>© <span id="footerName">Animalu</span></div>
-          <div class="footer-icons" aria-label="Social icons">
-            <a data-social="spotify" href="#" aria-label="Spotify" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm4.6 14.6a.8.8 0 0 1-1.1.27c-3-1.84-6.78-2.26-11.23-1.25a.8.8 0 1 1-.36-1.56c4.86-1.11 9.03-.63 12.35 1.4a.8.8 0 0 1 .35 1.14Zm1.58-3.25a1 1 0 0 1-1.37.33c-3.43-2.1-8.66-2.7-12.72-1.47a1 1 0 1 1-.58-1.92c4.6-1.39 10.32-.71 14.2 1.67a1 1 0 0 1 .47 1.39Zm.13-3.38C14.2 7.45 7.42 7.26 3.72 8.38a1.2 1.2 0 0 1-.7-2.3c4.24-1.29 11.73-1.04 16.3 1.67a1.2 1.2 0 0 1-1.01 2.22Z"/></svg>
-            </a>
-            <a data-social="tiktok" href="#" aria-label="TikTok" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82c.7.5 1.53.8 2.4.85V9.1c-1.55.05-3-.45-4.15-1.35v7.45c0 3.12-2.53 5.65-5.65 5.65S3.55 18.32 3.55 15.2s2.53-5.65 5.65-5.65c.3 0 .6.02.88.07v2.6a3.07 3.07 0 0 0-.88-.13 3.11 3.11 0 1 0 3.11 3.11V3h2.53c.2 1.17.85 2.2 1.76 2.82Z"/></svg>
-            </a>
-            <a data-social="instagram" href="#" aria-label="Instagram" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 6.8a1.2 1.2 0 1 1-1.2-1.2A1.2 1.2 0 0 1 18 6.8Z"/></svg>
-            </a>
-            <a data-social="facebook" href="#" aria-label="Facebook" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.2c0-.9.2-1.5 1.5-1.5H16.7V5.1c-.4-.1-1.6-.2-3-.2-3 0-5 1.8-5 5.2V11H6v3h2.7v8h4.8Z"/></svg>
-            </a>
-            <a data-social="youtube" href="#" aria-label="YouTube" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29.2 29.2 0 0 0 2 12a29.2 29.2 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29.2 29.2 0 0 0 22 12a29.2 29.2 0 0 0-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>
-            </a>
+        <div class="section-header reveal">
+          <h2 data-field="latest-label">Latest release</h2>
+          <p class="section-sub">Straight from the music channel uploads.</p>
+        </div>
+        <div class="embed-card reveal" data-embed-target="youtube">
+          <div class="embed-placeholder">
+            <p>Load the latest music release.</p>
+            <button class="btn btn-primary" data-embed-load>Load</button>
           </div>
         </div>
-        <hr class="sep" />
       </div>
-    </footer>
+    </section>
+
+    <section class="section" id="spotify" data-embed="spotify">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Spotify</h2>
+          <p class="section-sub">Follow Animalu for new drops.</p>
+        </div>
+        <div class="embed-card reveal" data-embed-target="spotify">
+          <div class="embed-placeholder">
+            <p>Spotify player ready.</p>
+            <button class="btn btn-primary" data-embed-load>Load</button>
+          </div>
+        </div>
+        <div class="section-actions reveal">
+          <a class="btn btn-ghost" href="#" data-field="spotify-follow">Follow on Spotify</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tiktok" data-embed="tiktok">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>TikTok</h2>
+          <p class="section-sub">Behind the scenes, quick hits, and live energy.</p>
+        </div>
+        <div class="embed-card reveal" data-embed-target="tiktok">
+          <div class="embed-placeholder">
+            <p>TikTok profile embed.</p>
+            <button class="btn btn-primary" data-embed-load>Load</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shows" data-embed="bandsintown">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Live shows</h2>
+          <p class="section-sub">Upcoming dates, tickets, and venues.</p>
+        </div>
+        <div class="embed-card reveal" data-embed-target="bandsintown">
+          <div class="embed-placeholder">
+            <p>Loading tour dates.</p>
+            <button class="btn btn-primary" data-embed-load>Load</button>
+          </div>
+        </div>
+        <p class="fallback-link">
+          <a href="#" data-field="bandsintown-link">Visit Bandsintown artist page</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="booking">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Booking / Contact</h2>
+          <p class="section-sub">For bookings, press, and collaborations.</p>
+        </div>
+        <div class="contact-card reveal">
+          <p class="contact-name" data-field="booking-name">Contact name</p>
+          <a class="contact-email" data-field="booking-email" href="mailto:">email@example.com</a>
+          <p class="contact-extra" data-field="booking-phone" hidden></p>
+          <p class="contact-extra" data-field="booking-presskit" hidden></p>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-title">Animalu</p>
+        <p class="footer-sub">Built for the stage. Built for the moment.</p>
+      </div>
+      <div class="footer-social" aria-label="Social links">
+        <a class="icon-link" href="#" data-social="spotify" aria-label="Spotify">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 14.4a.9.9 0 0 1-1.2.3c-3.2-2-7.3-2.4-12.1-1.2a.9.9 0 1 1-.4-1.7c5.2-1.3 9.8-.8 13.4 1.4.4.3.5.8.3 1.2Zm1.7-3.2a1.1 1.1 0 0 1-1.5.4c-3.7-2.2-9.3-2.9-13.6-1.6a1.1 1.1 0 1 1-.6-2c4.9-1.5 11.1-.7 15.3 1.9.5.3.7 1 .4 1.3Zm.1-3.4C14.1 7.5 7.4 7.4 3.5 8.6a1.2 1.2 0 1 1-.7-2.3c4.5-1.3 12-1.2 16.7 1.6a1.2 1.2 0 0 1-1.1 2Z" /></svg>
+        </a>
+        <a class="icon-link" href="#" data-social="tiktok" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2h-2.7v12.1a3.2 3.2 0 1 1-2.3-3.1V8.2a6.4 6.4 0 1 0 4.8 6.2V7.6c1.2.9 2.6 1.4 4.1 1.4V6.3c-1.6 0-3-.7-3.9-1.9Z" /></svg>
+        </a>
+        <a class="icon-link" href="#" data-social="instagram" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7Zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10Zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5Zm0 2A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5Zm5-3.3a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2Z" /></svg>
+        </a>
+        <a class="icon-link" href="#" data-social="facebook" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 9.3V7.5c0-.7.4-1.2 1.3-1.2h1.7V3.2h-2.6c-3 0-4.1 1.9-4.1 4v2.1H7.8v3.2h2v8.3h3.7v-8.3h2.6l.4-3.2h-3Z" /></svg>
+        </a>
+        <a class="icon-link" href="#" data-social="youtube" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.7 2.7 0 0 0-1.9-1.9C17.9 5 12 5 12 5s-5.9 0-7.7.3a2.7 2.7 0 0 0-1.9 1.9C2 9 2 12 2 12s0 3 .4 4.8a2.7 2.7 0 0 0 1.9 1.9c1.8.3 7.7.3 7.7.3s5.9 0 7.7-.3a2.7 2.7 0 0 0 1.9-1.9C22 15 22 12 22 12s0-3-.4-4.8ZM10 15V9l5.2 3L10 15Z" /></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js" defer></script>
 </body>
 </html>
