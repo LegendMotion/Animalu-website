@@ -8,7 +8,7 @@ seo:
   title: "Animalu – Official Artist Site"
   description: "Official website for Animalu. New music, live shows, videos and booking."
   canonical: ""
-  og_image: "/assets/img/og-image.jpg"
+  og_image: "assets/img/og-image.svg"
 
 theme:
   primary_color: "#d0021b"
