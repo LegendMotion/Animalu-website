@@ -1,6 +1,6 @@
 :root {
   color-scheme: dark;
-  --bg: #0a0a0a;
+  --bg: #050505;
   --bg-soft: #111111;
   --text: #f5f5f5;
   --muted: #c6c6c6;
@@ -24,19 +24,20 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  text-transform: uppercase;
 }
 
 .background-grit {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at top left, rgba(208, 2, 27, 0.15), transparent 55%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.04), transparent 40%),
-    radial-gradient(circle at 20% 80%, rgba(208, 2, 27, 0.08), transparent 45%),
+    radial-gradient(circle at top left, rgba(208, 2, 27, 0.2), transparent 55%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.05), transparent 40%),
+    radial-gradient(circle at 20% 70%, rgba(208, 2, 27, 0.12), transparent 45%),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.15'/></svg>");
   opacity: 0.9;
   pointer-events: none;
-  mix-blend-mode: screen;
+  mix-blend-mode: soft-light;
   z-index: -1;
 }
 
@@ -112,7 +113,7 @@ button:focus-visible {
 }
 
 .hero {
-  padding: 4rem 0 5rem;
+  padding: 5rem 0 4rem;
 }
 
 .hero-grid {
@@ -128,17 +129,18 @@ button:focus-visible {
   margin-bottom: 1rem;
 }
 
-.hero h1 {
-  font-size: clamp(3rem, 8vw, 5.5rem);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 0.95;
+.hero-title {
+  font-size: clamp(3.5rem, 9vw, 6.5rem);
+  letter-spacing: 0.18em;
+  line-height: 0.9;
+  text-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 }
 
 .tagline {
   font-size: clamp(1.2rem, 2.2vw, 1.6rem);
   color: var(--muted);
   margin: 1.5rem 0;
+  max-width: 460px;
 }
 
 .cta-group {
@@ -183,6 +185,7 @@ button:focus-visible {
   max-width: 480px;
   color: var(--muted);
   font-size: 0.95rem;
+  text-transform: none;
 }
 
 .about h2,
@@ -226,9 +229,11 @@ button:focus-visible {
 .poster {
   position: relative;
   width: min(320px, 80vw);
-  border: 2px solid rgba(208, 2, 27, 0.6);
-  padding: 0.5rem;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  padding: 0.6rem;
   background: rgba(0, 0, 0, 0.7);
+  transform: rotate(-2deg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
 .poster img {
@@ -260,6 +265,54 @@ button:focus-visible {
   border-top: 1px solid var(--border);
 }
 
+.featured {
+  border-top: none;
+  padding-top: 2rem;
+}
+
+.featured .section-header {
+  max-width: 700px;
+}
+
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  position: relative;
+}
+
+.collage-card {
+  background: rgba(0, 0, 0, 0.65);
+  padding: 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  transform: rotate(-1deg);
+}
+
+.collage-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) saturate(0.9);
+}
+
+.collage-card.wide {
+  grid-column: span 2;
+  transform: rotate(1.5deg);
+}
+
+.collage-card.tall {
+  grid-row: span 2;
+  transform: rotate(-2deg);
+}
+
+.collage-plus {
+  margin-top: 2rem;
+  font-size: 2.5rem;
+  color: var(--accent);
+  text-align: center;
+}
+
 .section-header {
   margin-bottom: 2rem;
 }
@@ -274,6 +327,7 @@ button:focus-visible {
   color: var(--muted);
   max-width: 500px;
   margin-top: 0.5rem;
+  text-transform: none;
 }
 
 .embed-card {
@@ -293,6 +347,7 @@ button:focus-visible {
   color: var(--muted);
   display: grid;
   gap: 1rem;
+  text-transform: none;
 }
 
 .embed-frame {
@@ -330,6 +385,7 @@ button:focus-visible {
   display: grid;
   gap: 0.75rem;
   max-width: 400px;
+  text-transform: none;
 }
 
 .contact-name {
@@ -366,6 +422,7 @@ button:focus-visible {
 .footer-sub {
   color: var(--muted);
   margin-top: 0.5rem;
+  text-transform: none;
 }
 
 .footer-social {
@@ -390,9 +447,23 @@ button:focus-visible {
     align-items: center;
   }
 
+  .collage-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .footer-grid {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+}
+
+@media (max-width: 700px) {
+  body {
+    text-transform: none;
+  }
+
+  .hero-title {
+    letter-spacing: 0.08em;
   }
 }
