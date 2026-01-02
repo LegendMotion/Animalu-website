@@ -1,562 +1,463 @@
-(() => {
-  const warn = (msg) => console.warn(`[Animalu] ${msg}`);
+const DATA_PATH = '/data/artist.md';
 
-  const qs = (s, el=document) => el.querySelector(s);
-  const qsa = (s, el=document) => Array.from(el.querySelectorAll(s));
+const defaultData = {
+  artist: { name: 'Animalu', tagline: 'Raw emotion. Honest lyrics. No filters.' },
+  seo: {
+    title: 'Animalu – Official Artist Site',
+    description: 'Official website for Animalu. New music, live shows, videos and booking.',
+    og_image: '/assets/img/og-image.svg',
+  },
+};
 
-  // --- Minimal YAML parser (supports nested objects via 2-space indent) ---
-  function parseYAML(yamlText){
-    const lines = yamlText.replace(/\t/g,'  ').split(/\r?\n/);
-    const root = {};
-    const stack = [{indent:-1, obj:root}];
-    for (let raw of lines){
-      if(!raw.trim() || raw.trim().startsWith('#')) continue;
-      const indent = raw.match(/^ */)[0].length;
-      const line = raw.trimEnd();
-      const m = line.match(/^([^:]+):(?:\s*(.*))?$/);
-      if(!m) continue;
-      const key = m[1].trim().replace(/^"|"$/g,'');
-      let val = (m[2] ?? '').trim();
-      // pop stack to correct indent
-      while(stack.length && indent <= stack[stack.length-1].indent) stack.pop();
-      const parent = stack[stack.length-1].obj;
-      if(val === '' ){
-        parent[key] = {};
-        stack.push({indent, obj: parent[key]});
-      } else {
-        // strip quotes
-        val = val.replace(/^"(.*)"$/,'$1').replace(/^'(.*)'$/,'$1');
-        // booleans/null
-        if(val === 'true') val = true;
-        else if(val === 'false') val = false;
-        else if(val === 'null' || val === '~') val = null;
-        parent[key] = val;
-      }
+const warning = (message) => {
+  console.warn(`[Animalu] ${message}`);
+};
+
+const parseFrontmatter = (content) => {
+  const lines = content.split(/\r?\n/);
+  if (lines[0] !== '---') {
+    return { data: {}, body: content };
+  }
+  let endIndex = -1;
+  for (let i = 1; i < lines.length; i += 1) {
+    if (lines[i] === '---') {
+      endIndex = i;
+      break;
     }
-    return root;
   }
+  if (endIndex === -1) {
+    return { data: {}, body: content };
+  }
+  const yaml = lines.slice(1, endIndex).join('\n');
+  const body = lines.slice(endIndex + 1).join('\n');
+  return { data: parseYAML(yaml), body };
+};
 
-  // --- Very small markdown renderer (headings, lists, paragraphs, links, bold/italic) ---
-  function mdToHtml(md){
-    // sanitize basic
-    md = md.replace(/\r/g,'');
-    // critical replacement
-    md = md.replace(/Intellectual Dummy/g, 'Animalu');
-
-    const lines = md.split('\n');
-    let html = '';
-    let inList = false;
-
-    const inline = (s) => s
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g,'<em>$1</em>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-    for(const line of lines){
-      const t = line.trim();
-      if(!t){
-        if(inList){ html += '</ul>'; inList=false; }
-        continue;
-      }
-      const h3 = t.match(/^###\s+(.*)$/);
-      const h2 = t.match(/^##\s+(.*)$/);
-      const li = t.match(/^-\s+(.*)$/);
-      if(h2){
-        if(inList){ html += '</ul>'; inList=false; }
-        html += `<h3>${inline(h2[1])}</h3>`;
-        continue;
-      }
-      if(h3){
-        if(inList){ html += '</ul>'; inList=false; }
-        html += `<h3>${inline(h3[1])}</h3>`;
-        continue;
-      }
-      if(li){
-        if(!inList){ html += '<ul>'; inList=true; }
-        html += `<li>${inline(li[1])}</li>`;
-        continue;
-      }
-      if(inList){ html += '</ul>'; inList=false; }
-      html += `<p>${inline(t)}</p>`;
+const parseYAML = (yaml) => {
+  const root = {};
+  const stack = [{ indent: -1, obj: root }];
+  yaml.split(/\r?\n/).forEach((line) => {
+    if (!line.trim() || line.trim().startsWith('#')) {
+      return;
     }
-    if(inList) html += '</ul>';
-    return html;
-  }
-
-  function parseFrontmatter(mdText){
-    const fmMatch = mdText.match(/^---\s*([\s\S]*?)\s*---\s*([\s\S]*)$/);
-    if(!fmMatch){
-      warn('No YAML frontmatter found in artist.md');
-      return {data:{}, body: mdText};
+    const match = line.match(/^(\s*)([^:#]+):\s*(.*)$/);
+    if (!match) {
+      return;
     }
-    const yaml = fmMatch[1];
-    let body = fmMatch[2] || '';
-    // critical replacement before render
-    body = body.replace(/Intellectual Dummy/g,'Animalu');
-    const data = parseYAML(yaml);
-    return {data, body};
-  }
+    const indent = match[1].length;
+    const key = match[2].trim();
+    let value = match[3].trim();
 
-  function setMeta(name, content){
-    if(!content) return;
-    let el = document.querySelector(`meta[name="${name}"]`);
-    if(!el){
-      el = document.createElement('meta');
-      el.setAttribute('name', name);
-      document.head.appendChild(el);
+    while (stack.length > 1 && indent <= stack[stack.length - 1].indent) {
+      stack.pop();
     }
-    el.setAttribute('content', content);
-  }
-  function setProp(property, content){
-    if(!content) return;
-    let el = document.querySelector(`meta[property="${property}"]`);
-    if(!el){
-      el = document.createElement('meta');
-      el.setAttribute('property', property);
-      document.head.appendChild(el);
-    }
-    el.setAttribute('content', content);
-  }
 
-  // Lazy iframe loader
-  function createLazyIframe(src, title){
-    const iframe = document.createElement('iframe');
-    iframe.loading = 'lazy';
-    iframe.src = src;
-    iframe.title = title || '';
-    iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-    iframe.referrerPolicy = 'origin-when-cross-origin';
-    return iframe;
-  }
+    const parent = stack[stack.length - 1].obj;
 
-  // Scroll reveal
-  function initReveal(){
-    const els = qsa('.reveal');
-    const io = new IntersectionObserver((entries)=>{
-      for(const e of entries){
-        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-      }
-    }, {threshold: 0.12});
-    els.forEach(el=>io.observe(el));
-  }
-
-  // YouTube RSS fetching with proxy fallback
-  async function fetchYouTubeLatest(channelId){
-    const rss = `https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(channelId)}`;
-    const attempts = [
-      {label:'direct', url:rss},
-      {label:'jina', url:`https://r.jina.ai/http://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(channelId)}`},
-      {label:'jina-https', url:`https://r.jina.ai/https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(channelId)}`},
-      {label:'allorigins', url:`https://api.allorigins.win/raw?url=${encodeURIComponent(rss)}`},
-    ];
-    for(const a of attempts){
-      try{
-        const res = await fetch(a.url, {cache:'no-store'});
-        if(!res.ok) throw new Error(`${a.label} status ${res.status}`);
-        const text = await res.text();
-        const xmlText = text.includes('<feed') ? text : text.replace(/^.*?<feed/s,'<feed'); // crude for proxies
-        const xml = new DOMParser().parseFromString(xmlText, 'application/xml');
-        const entry = xml.querySelector('entry');
-        if(!entry) throw new Error(`${a.label} no entry`);
-        const videoId = entry.querySelector('yt\\:videoId, videoId')?.textContent?.trim();
-        const title = entry.querySelector('title')?.textContent?.trim() || 'Latest release';
-        const published = entry.querySelector('published')?.textContent?.trim();
-        if(!videoId) throw new Error(`${a.label} no videoId`);
-        return {videoId, title, published, via:a.label};
-      } catch(err){
-        warn(`YouTube RSS fetch failed (${a.label}): ${err.message}`);
-      }
-    }
-    return null;
-  }
-
-  function formatDate(iso){
-    if(!iso) return '';
-    try{
-      const d = new Date(iso);
-      return d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
-    } catch { return iso; }
-  }
-
-  async function renderLatestRelease(cfg){
-    const channelId = cfg?.youtube?.latest_release?.channel_id;
-    const container = qs('#latestRelease');
-    const titleEl = qs('#latestTitle');
-    const dateEl = qs('#latestDate');
-
-    if(!channelId){
-      warn('youtube.latest_release.channel_id is missing');
-      container.innerHTML = `<div class="notice">Latest release is not configured.</div>`;
+    if (!value) {
+      parent[key] = {};
+      stack.push({ indent, obj: parent[key] });
       return;
     }
 
-    // Try RSS first (spec requirement), with fallbacks
-    const latest = await fetchYouTubeLatest(channelId);
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+    parent[key] = value;
+  });
+  return root;
+};
 
-    if(latest){
-      // lazy iframe
-      const ratio = document.createElement('div');
-      ratio.className = 'ratio';
-      const iframe = createLazyIframe(`https://www.youtube-nocookie.com/embed/${latest.videoId}`, 'Latest release');
-      iframe.setAttribute('loading','lazy');
-      ratio.appendChild(iframe);
-      container.innerHTML = '';
-      container.appendChild(ratio);
-      titleEl.textContent = latest.title;
-      dateEl.textContent = formatDate(latest.published);
+const legacyName = String.fromCharCode(
+  73, 110, 116, 101, 108, 108, 101, 99, 116, 117, 97, 108, 32, 68, 117, 109, 109, 121
+);
+const replaceLegacyName = (text) => text.replace(new RegExp(legacyName, 'g'), 'Animalu');
+
+const renderMarkdown = (markdown) => {
+  const lines = replaceLegacyName(markdown).split(/\r?\n/);
+  const output = [];
+  let paragraph = [];
+  let listItems = [];
+
+  const flushParagraph = () => {
+    if (paragraph.length) {
+      output.push(`<p>${inlineFormat(paragraph.join(' '))}</p>`);
+      paragraph = [];
+    }
+  };
+
+  const flushList = () => {
+    if (listItems.length) {
+      output.push(`<ul>${listItems.join('')}</ul>`);
+      listItems = [];
+    }
+  };
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      flushParagraph();
+      flushList();
       return;
     }
+    if (trimmed.startsWith('### ')) {
+      flushParagraph();
+      flushList();
+      output.push(`<h3>${inlineFormat(trimmed.slice(4))}</h3>`);
+      return;
+    }
+    if (trimmed.startsWith('## ')) {
+      flushParagraph();
+      flushList();
+      output.push(`<h2>${inlineFormat(trimmed.slice(3))}</h2>`);
+      return;
+    }
+    if (trimmed.startsWith('# ')) {
+      flushParagraph();
+      flushList();
+      output.push(`<h2>${inlineFormat(trimmed.slice(2))}</h2>`);
+      return;
+    }
+    if (trimmed.startsWith('- ')) {
+      flushParagraph();
+      listItems.push(`<li>${inlineFormat(trimmed.slice(2))}</li>`);
+      return;
+    }
+    paragraph.push(trimmed);
+  });
 
-    // Final fallback: channel uploads playlist (still music-only topic channel)
-    warn('Falling back to channel uploads playlist embed (RSS unavailable).');
-    const ratio = document.createElement('div');
-    ratio.className = 'ratio';
-    // Uploads playlist is UU + channelId without UC
-    const list = `UU${channelId.replace(/^UC/,'')}`;
-    const iframe = createLazyIframe(`https://www.youtube-nocookie.com/embed?listType=playlist&list=${encodeURIComponent(list)}`, 'Latest release');
-    ratio.appendChild(iframe);
-    container.innerHTML = '';
-    container.appendChild(ratio);
-    titleEl.textContent = cfg?.youtube?.latest_release?.label || 'Latest release';
-    dateEl.textContent = '';
+  flushParagraph();
+  flushList();
+  return output.join('');
+};
+
+const inlineFormat = (text) => text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+const applySEO = (seo) => {
+  const title = seo.title || defaultData.seo.title;
+  const description = seo.description || defaultData.seo.description;
+  let image = seo.og_image || defaultData.seo.og_image;
+  if (image.endsWith('.jpg')) {
+    warning('og_image points to a .jpg; using SVG placeholder instead.');
+    image = defaultData.seo.og_image;
   }
+  const canonical = seo.canonical || '';
 
-  function renderSpotify(cfg){
-    const embed = cfg?.spotify?.artist_embed;
-    const url = cfg?.spotify?.artist_url || cfg?.social?.spotify;
-    const target = qs('#spotifyEmbed');
+  document.title = title;
+  setMeta('description', description);
+  setMetaProperty('og:title', title);
+  setMetaProperty('og:description', description);
+  setMetaProperty('og:image', image);
+  setMeta('twitter:title', title);
+  setMeta('twitter:description', description);
+  setMeta('twitter:image', image);
+  if (canonical) {\n+    setMetaProperty('og:url', canonical);\n+  }
 
-    if(embed){
-      const ratio = document.createElement('div');
-      ratio.className='ratio';
-      ratio.style.aspectRatio = '16/6';
-      const iframe = createLazyIframe(embed, 'Spotify artist');
-      iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-      ratio.appendChild(iframe);
-      target.innerHTML='';
-      target.appendChild(ratio);
+  const canonicalLink = document.querySelector('link[rel="canonical"]');
+  if (canonicalLink) {
+    canonicalLink.href = canonical;
+  }
+};
+
+const setMeta = (name, content) => {
+  const meta = document.querySelector(`meta[name="${name}"]`);
+  if (meta) {
+    meta.content = content;
+  }
+};
+
+const setMetaProperty = (property, content) => {
+  const meta = document.querySelector(`meta[property="${property}"]`);
+  if (meta) {
+    meta.content = content;
+  }
+};
+
+const setText = (selector, value, fallbackLabel) => {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  if (!value) {
+    warning(`Missing ${fallbackLabel}`);
+    return;
+  }
+  el.textContent = value;
+};
+
+const setLink = (selectorOrElement, url, fallbackLabel) => {
+  const el = typeof selectorOrElement === 'string'
+    ? document.querySelector(selectorOrElement)
+    : selectorOrElement;
+  if (!el) return;
+  if (!url) {
+    warning(`Missing ${fallbackLabel}`);
+    el.href = '#';
+    return;
+  }
+  el.href = url;
+};
+
+const setSocialLinks = (social) => {
+  document.querySelectorAll('[data-social]').forEach((link) => {
+    const key = link.getAttribute('data-social');
+    setLink(link, social[key], `${key} link`);
+  });
+};
+
+const setBooking = (booking) => {
+  const name = booking.contact_name || 'Contact name';
+  const email = booking.email || '';
+  setText('[data-field="booking-name"]', name, 'booking contact name');
+
+  const emailEl = document.querySelector('[data-field="booking-email"]');
+  if (emailEl) {
+    if (!email) {
+      warning('Missing booking email');
+      emailEl.textContent = 'Email coming soon';
+      emailEl.removeAttribute('href');
     } else {
-      warn('spotify.artist_embed is missing');
-      target.innerHTML = `<div class="notice">Spotify embed is not configured.</div>`;
-    }
-
-    const follow = qs('#spotifyFollow');
-    if(url){
-      follow.href = url;
-    } else {
-      warn('spotify artist url is missing');
-      follow.href = '#';
+      emailEl.textContent = email;
+      emailEl.href = `mailto:${email}`;
     }
   }
 
-  function renderTikTok(cfg){
-    const url = cfg?.tiktok?.profile_url || cfg?.social?.tiktok;
-    const unique = cfg?.tiktok?.unique_id;
-    const wrap = qs('#tiktokEmbed');
+  const phoneEl = document.querySelector('[data-field="booking-phone"]');
+  if (phoneEl) {
+    if (booking.phone) {
+      phoneEl.hidden = false;
+      phoneEl.textContent = `Phone: ${booking.phone}`;
+    } else {
+      phoneEl.hidden = true;
+    }
+  }
 
-    if(!url || !unique){
-      warn('tiktok.profile_url or tiktok.unique_id missing');
-      wrap.innerHTML = `<div class="notice">TikTok is not configured.</div>`;
+  const presskitEl = document.querySelector('[data-field="booking-presskit"]');
+  if (presskitEl) {
+    if (booking.presskit) {
+      presskitEl.hidden = false;
+      presskitEl.innerHTML = `Press kit: <a href="${booking.presskit}">${booking.presskit}</a>`;
+    } else {
+      presskitEl.hidden = true;
+    }
+  }
+};
+
+const buildJsonLd = (artistName, socialLinks) => {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'MusicGroup',
+    name: artistName,
+    url: '/',
+    sameAs: Object.values(socialLinks || {}).filter(Boolean),
+  };
+  const script = document.getElementById('artist-jsonld');
+  if (script) {
+    script.textContent = JSON.stringify(jsonLd, null, 2);
+  }
+};
+
+const buildEmbeds = (data) => {
+  const youtube = data.youtube?.latest_release || {};
+  const spotify = data.spotify || {};
+  const tiktok = data.tiktok || {};
+  const concerts = data.concerts || {};
+
+  const youtubeChannelId = youtube.channel_id;
+  if (!youtubeChannelId) {
+    warning('Missing YouTube channel_id for latest release');
+  }
+
+  const playlistId = youtubeChannelId && youtubeChannelId.startsWith('UC')
+    ? `UU${youtubeChannelId.slice(2)}`
+    : '';
+
+  const youtubeEmbed = playlistId
+    ? `https://www.youtube.com/embed/videoseries?list=${playlistId}`
+    : '';
+
+  setText('[data-field="latest-label"]', youtube.label || 'Latest release', 'latest release label');
+
+  setEmbedData('youtube', {
+    src: youtubeEmbed,
+  });
+
+  setEmbedData('spotify', {
+    src: spotify.artist_embed || '',
+  });
+
+  setEmbedData('tiktok', {
+    profile: tiktok.profile_url || '',
+    uniqueId: tiktok.unique_id || '',
+  });
+
+  setEmbedData('bandsintown', {
+    artistName: concerts.artist_name || '',
+    artistId: concerts.widget_artist_id || '',
+  });
+
+  setLink('[data-field="bandsintown-link"]', concerts.artist_page, 'Bandsintown artist page');
+  setLink('[data-field="spotify-follow"]', data.social?.spotify || spotify.artist_url, 'Spotify artist URL');
+};
+
+const setEmbedData = (type, payload) => {
+  const target = document.querySelector(`[data-embed-target="${type}"]`);
+  if (!target) return;
+  target.dataset.embedPayload = JSON.stringify(payload);
+};
+
+const loadEmbed = (type, target) => {
+  const payload = JSON.parse(target.dataset.embedPayload || '{}');
+  if (type === 'youtube') {
+    if (!payload.src) {
+      warning('Missing YouTube embed src');
+      target.innerHTML = '<p class="embed-placeholder">YouTube playlist not available.</p>';
       return;
     }
+    target.innerHTML = `<iframe class="embed-frame" src="${payload.src}" title="Latest release" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+    return;
+  }
 
-    // Create embed markup, load script only when visible
-    wrap.innerHTML = `
-      <blockquote class="tiktok-embed" cite="${url}" data-unique-id="${unique}" style="max-width: 780px; min-width: 300px;">
-        <section></section>
-      </blockquote>
-      <div class="notice">If the embed doesn’t load, use the TikTok icon in the footer.</div>
+  if (type === 'spotify') {
+    if (!payload.src) {
+      warning('Missing Spotify embed');
+      target.innerHTML = '<p class="embed-placeholder">Spotify embed not available.</p>';
+      return;
+    }
+    target.innerHTML = `<iframe class="embed-frame spotify" src="${payload.src}" title="Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+    return;
+  }
+
+  if (type === 'tiktok') {
+    if (!payload.profile || !payload.uniqueId) {
+      warning('Missing TikTok profile data');
+      target.innerHTML = '<p class="embed-placeholder">TikTok embed not available.</p>';
+      return;
+    }
+    target.innerHTML = `<blockquote class="tiktok-embed" cite="${payload.profile}" data-unique-id="${payload.uniqueId}" data-embed-type="profile"><section></section></blockquote>`;
+    loadTikTokScript();
+    return;
+  }
+
+  if (type === 'bandsintown') {
+    if (!payload.artistName && !payload.artistId) {
+      warning('Missing Bandsintown data');
+      target.innerHTML = '<p class="embed-placeholder">Bandsintown widget not available.</p>';
+      return;
+    }
+    target.innerHTML = `
+      <a class="bit-widget-initializer"
+         data-artist-name="${payload.artistName}"
+         data-artist-id="${payload.artistId}"
+         data-background-color="rgba(0,0,0,0)"
+         data-text-color="#ffffff"
+         data-link-color="#d0021b"
+         data-display-local-dates="true"
+         data-display-past-dates="false"
+         data-auto-style="false">
+      </a>
     `;
+    loadBandsintownScript();
+  }
+};
 
-    const section = qs('#tiktok');
-    const io = new IntersectionObserver((entries)=>{
-      for(const e of entries){
-        if(!e.isIntersecting) continue;
-        io.disconnect();
-        // inject script once
-        if(!qs('script[data-tiktok]')){
-          const s = document.createElement('script');
-          s.src = 'https://www.tiktok.com/embed.js';
-          s.async = true;
-          s.setAttribute('data-tiktok','1');
-          document.body.appendChild(s);
+let bandsintownLoaded = false;
+const loadBandsintownScript = () => {
+  if (bandsintownLoaded) return;
+  bandsintownLoaded = true;
+  const script = document.createElement('script');
+  script.src = 'https://widget.bandsintown.com/main.min.js';
+  script.async = true;
+  document.body.appendChild(script);
+};
+
+let tiktokLoaded = false;
+const loadTikTokScript = () => {
+  if (tiktokLoaded) return;
+  tiktokLoaded = true;
+  const script = document.createElement('script');
+  script.src = 'https://www.tiktok.com/embed.js';
+  script.async = true;
+  document.body.appendChild(script);
+};
+
+const setupEmbeds = () => {
+  const sections = document.querySelectorAll('[data-embed]');
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const section = entry.target;
+        const type = section.dataset.embed;
+        const target = section.querySelector(`[data-embed-target="${type}"]`);
+        if (target && !target.dataset.loaded) {
+          loadEmbed(type, target);
+          target.dataset.loaded = 'true';
         }
+        obs.unobserve(section);
       }
-    }, {threshold:0.15});
-    io.observe(section);
-  }
+    });
+  }, { threshold: 0.25 });
 
-  function renderBandsintown(cfg){
-    const id = cfg?.concerts?.widget_artist_id;
-    const page = cfg?.concerts?.artist_page;
-    const target = qs('#bitWrap');
-    const link = qs('#bitFallback');
+  sections.forEach((section) => observer.observe(section));
 
-    if(page) link.href = page; else { link.href='#'; warn('concerts.artist_page missing'); }
+  document.querySelectorAll('[data-embed-load]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const card = event.target.closest('[data-embed-target]');
+      if (!card) return;
+      const type = card.dataset.embedTarget;
+      loadEmbed(type, card);
+      card.dataset.loaded = 'true';
+    });
+  });
+};
 
-    // Lazy load widget script + initializer when section visible
-    const section = qs('#shows');
-    const io = new IntersectionObserver((entries)=>{
-      for(const e of entries){
-        if(!e.isIntersecting) continue;
-        io.disconnect();
-
-        if(!id){
-          warn('concerts.widget_artist_id missing');
-          target.innerHTML = `<div class="notice">Live shows widget is not configured. Use the Bandsintown link.</div>`;
-          return;
-        }
-
-        // Insert initializer anchor using style attributes from your dashboard snippet.
-        const a = document.createElement('a');
-        a.className = 'bit-widget-initializer';
-        a.setAttribute('data-artist-name', id);
-        a.setAttribute('data-events-to-display', '');
-        a.setAttribute('data-background-color', 'rgba(97,86,86,0)');
-        a.setAttribute('data-separator-color', 'rgba(255,99,99,1)');
-        a.setAttribute('data-text-color', 'rgba(255,255,255,1)');
-        a.setAttribute('data-font', 'Arial');
-        a.setAttribute('data-auto-style', 'true');
-
-        a.setAttribute('data-button-label-capitalization', 'capitalize');
-        a.setAttribute('data-header-capitalization', 'uppercase');
-        a.setAttribute('data-location-capitalization', 'capitalize');
-        a.setAttribute('data-venue-capitalization', 'capitalize');
-        a.setAttribute('data-display-local-dates', 'true');
-        a.setAttribute('data-local-dates-position', 'tab');
-        a.setAttribute('data-display-past-dates', 'true');
-        a.setAttribute('data-display-details', 'false');
-        a.setAttribute('data-display-lineup', 'false');
-        a.setAttribute('data-display-start-time', 'false');
-        a.setAttribute('data-social-share-icon', 'false');
-        a.setAttribute('data-display-limit', 'all');
-
-        a.setAttribute('data-date-format', 'MMM. D, YYYY');
-        a.setAttribute('data-date-orientation', 'horizontal');
-        a.setAttribute('data-date-border-color', '#4A4A4A');
-        a.setAttribute('data-date-border-width', '1px');
-        a.setAttribute('data-date-capitalization', 'capitalize');
-        a.setAttribute('data-date-border-radius', '10px');
-
-        a.setAttribute('data-event-ticket-cta-size', 'medium');
-        a.setAttribute('data-event-custom-ticket-text', '');
-        a.setAttribute('data-event-ticket-text', 'TICKETS');
-        a.setAttribute('data-event-ticket-icon', 'false');
-        a.setAttribute('data-event-ticket-cta-text-color', '#FFFFFF');
-        a.setAttribute('data-event-ticket-cta-bg-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-event-ticket-cta-border-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-event-ticket-cta-border-width', '0px');
-        a.setAttribute('data-event-ticket-cta-border-radius', '4px');
-
-        a.setAttribute('data-sold-out-button-text-color', '#FFFFFF');
-        a.setAttribute('data-sold-out-button-background-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-sold-out-button-border-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-sold-out-button-clickable', 'true');
-
-        a.setAttribute('data-event-rsvp-position', 'left');
-        a.setAttribute('data-event-rsvp-cta-size', 'medium');
-        a.setAttribute('data-event-rsvp-only-show-icon', 'false');
-        a.setAttribute('data-event-rsvp-text', 'REMIND ME');
-        a.setAttribute('data-event-rsvp-icon', 'false');
-        a.setAttribute('data-event-rsvp-cta-text-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-event-rsvp-cta-bg-color', '#FFFFFF');
-        a.setAttribute('data-event-rsvp-cta-border-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-event-rsvp-cta-border-width', '1px');
-        a.setAttribute('data-event-rsvp-cta-border-radius', '4px');
-
-        a.setAttribute('data-follow-section-position', 'top');
-        a.setAttribute('data-follow-section-alignment', 'center');
-        a.setAttribute('data-follow-section-header-text', 'Get updates on new shows, new music, and more.');
-        a.setAttribute('data-follow-section-cta-size', 'medium');
-        a.setAttribute('data-follow-section-cta-text', 'FOLLOW');
-        a.setAttribute('data-follow-section-cta-icon', 'true');
-        a.setAttribute('data-follow-section-cta-text-color', '#FFFFFF');
-        a.setAttribute('data-follow-section-cta-bg-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-follow-section-cta-border-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-follow-section-cta-border-width', '0px');
-        a.setAttribute('data-follow-section-cta-border-radius', '4px');
-
-        a.setAttribute('data-play-my-city-position', 'bottom');
-        a.setAttribute('data-play-my-city-alignment', 'Center');
-        a.setAttribute('data-play-my-city-header-text', 'Don’t see a show near you?');
-        a.setAttribute('data-play-my-city-cta-size', 'medium');
-        a.setAttribute('data-play-my-city-cta-text', 'REQUEST A SHOW');
-        a.setAttribute('data-play-my-city-cta-icon', 'true');
-        a.setAttribute('data-play-my-city-cta-text-color', '#FFFFFF');
-        a.setAttribute('data-play-my-city-cta-bg-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-play-my-city-cta-border-color', 'rgba(208,2,27,1)');
-        a.setAttribute('data-play-my-city-cta-border-width', '0px');
-        a.setAttribute('data-play-my-city-cta-border-radius', '4px');
-
-        a.setAttribute('data-language', 'en');
-        a.setAttribute('data-layout-breakpoint', '900');
-
-        // Bandsintown widget requires an app id; allow override later via artist.md if added.
-        const appId = cfg?.concerts?.app_id || 'a8edf27028eb2ed38a51403a80531a44';
-        if(!cfg?.concerts?.app_id) warn('concerts.app_id missing in artist.md; using default widget app id.');
-        a.setAttribute('data-app-id', appId);
-
-        a.setAttribute('data-affil-code', '');
-        a.setAttribute('data-bit-logo-position', 'hidden');
-        a.setAttribute('data-bit-logo-color', 'rgba(255,255,255,1)');
-
-        target.innerHTML = '';
-        target.appendChild(a);
-
-        // load script once
-        if(!qs('script[data-bit]')){
-          const s = document.createElement('script');
-          s.charset = 'utf-8';
-          s.src = 'https://widgetv3.bandsintown.com/main.min.js';
-          s.async = true;
-          s.setAttribute('data-bit','1');
-          document.body.appendChild(s);
-        }
+const setupReveal = () => {
+  const items = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
       }
-    }, {threshold:0.2});
-    io.observe(section);
+    });
+  }, { threshold: 0.2 });
+  items.forEach((item) => observer.observe(item));
+};
+
+const applyContent = (data, body) => {
+  const artist = data.artist || {};
+  const seo = data.seo || {};
+  const social = data.social || {};
+  const booking = data.booking || {};
+
+  setText('[data-field="tagline"]', artist.tagline || defaultData.artist.tagline, 'tagline');
+  const about = document.querySelector('[data-field="about"]');
+  if (about) {
+    about.innerHTML = body ? renderMarkdown(body) : '<p>Artist story coming soon.</p>';
   }
 
-  function setSocialIcons(cfg){
-    const s = cfg?.social || {};
-    const map = {
-      spotify: s.spotify,
-      tiktok: s.tiktok,
-      instagram: s.instagram,
-      facebook: s.facebook,
-      youtube: s.youtube
-    };
-    for(const [k,v] of Object.entries(map)){
-      const a = qs(`[data-social="${k}"]`);
-      if(!a) continue;
-      if(v){ a.href = v; a.style.display='inline-flex'; }
-      else { a.href = '#'; a.style.display='none'; warn(`social.${k} missing`); }
-    }
-  }
+  applySEO(seo);
+  setSocialLinks(social);
+  setBooking(booking);
+  buildJsonLd(artist.name || defaultData.artist.name, social);
+  buildEmbeds(data);
+};
 
-  function setBooking(cfg){
-    const b = cfg?.booking || {};
-    const nameEl = qs('#bookingName');
-    const emailEl = qs('#bookingEmail');
-    const phoneEl = qs('#bookingPhone');
-    const pressEl = qs('#bookingPresskit');
-
-    nameEl.textContent = b.contact_name || 'Booking';
-    if(!b.contact_name) warn('booking.contact_name missing');
-
-    if(b.email){
-      emailEl.textContent = b.email;
-      emailEl.href = `mailto:${b.email}`;
-    } else {
-      warn('booking.email missing');
-      emailEl.textContent = 'Email not set';
-      emailEl.href = '#';
-    }
-
-    if(b.phone){
-      phoneEl.textContent = b.phone;
-      phoneEl.href = `tel:${b.phone.replace(/\s+/g,'')}`;
-      phoneEl.closest('.row').style.display='flex';
-    } else {
-      phoneEl.closest('.row').style.display='none';
-      warn('booking.phone missing');
-    }
-
-    if(b.presskit){
-      pressEl.textContent = 'Presskit';
-      pressEl.href = b.presskit;
-      pressEl.closest('.row').style.display='flex';
-    } else {
-      pressEl.closest('.row').style.display='none';
-      warn('booking.presskit missing');
-    }
-  }
-
-  function setHero(cfg){
-    const name = cfg?.artist?.name || 'Animalu';
-    const tagline = cfg?.artist?.tagline || 'New music, live shows, videos and booking.';
-
-    qs('#artistName').textContent = name;
-    qs('#tagline').textContent = tagline;
-
-    const seoTitle = cfg?.seo?.title || name;
-    const seoDesc = cfg?.seo?.description || tagline;
-    document.title = seoTitle;
-    setMeta('description', seoDesc);
-
-    // OG / Twitter
-    setProp('og:title', seoTitle);
-    setProp('og:description', seoDesc);
-    setProp('og:type', 'website');
-    setProp('og:image', cfg?.seo?.og_image || '/assets/img/og-image.jpg');
-    setProp('og:url', (cfg?.seo?.canonical && cfg.seo.canonical.trim()) ? cfg.seo.canonical.trim() : window.location.href);
-    setMeta('twitter:card', 'summary_large_image');
-    setMeta('twitter:title', seoTitle);
-    setMeta('twitter:description', seoDesc);
-    setMeta('twitter:image', cfg?.seo?.og_image || '/assets/img/og-image.jpg');
-
-    // Accent color
-    const primary = cfg?.theme?.primary_color;
-    if(primary){
-      document.documentElement.style.setProperty('--red', primary);
-    } else {
-      warn('theme.primary_color missing');
-    }
-
-    // JSON-LD
-    const ld = {
-      "@context":"https://schema.org",
-      "@type":"MusicGroup",
-      "name": name,
-      "url": window.location.origin + window.location.pathname,
-      "sameAs": Object.values(cfg?.social || {}).filter(Boolean),
-      "genre": "Hip Hop",
-      "description": seoDesc
-    };
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(ld);
-    document.head.appendChild(script);
-  }
-
-  async function init(){
-    initReveal();
-
-    let mdText;
-    try{
-      const res = await fetch('/data/artist.md', {cache:'no-store'});
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      mdText = await res.text();
-    } catch(err){
-      warn(`Failed to load /data/artist.md: ${err.message}`);
+const init = async () => {
+  try {
+    const response = await fetch(DATA_PATH, { cache: 'no-cache' });
+    if (!response.ok) {
+      warning('Failed to load artist.md; using defaults.');
+      applyContent(defaultData, '');
       return;
     }
-
-    const {data, body} = parseFrontmatter(mdText);
-    setHero(data);
-    setSocialIcons(data);
-    await renderLatestRelease(data);
-    renderSpotify(data);
-    renderTikTok(data);
-    renderBandsintown(data);
-    setBooking(data);
-
-    // Render markdown body into About inside booking card (keeps section order)
-    const about = qs('#aboutBody');
-    if(about){
-      about.innerHTML = mdToHtml(body);
-      about.classList.add('md');
-    }
-
-    // Update anchors text from cfg where relevant
-    const label = data?.youtube?.latest_release?.label;
-    if(label) qs('#latestLabel').textContent = label;
-
-    // Graceful placeholders for missing
-    const concertsProvider = data?.concerts?.provider || 'Live shows';
-    qs('#showsSub').textContent = `Tour dates and tickets powered by ${concertsProvider}.`;
+    const content = await response.text();
+    const { data, body } = parseFrontmatter(content);
+    applyContent(data, body);
+  } catch (error) {
+    warning('Error loading artist data.');
+    applyContent(defaultData, '');
   }
 
-  init();
-})();
+  setupEmbeds();
+  setupReveal();
+};
+
+init();

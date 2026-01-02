@@ -1,42 +1,74 @@
-# Animalu – Static GitHub Pages site
+# Animalu — GitHub Pages Site
 
-This is a **static** site powered by a single content file:
+This repo hosts the static website for **Animalu** on GitHub Pages. The site is powered by a single source of truth: `data/artist.md`.
 
-- `data/artist.md` (single source of truth)
+## What to edit
 
-## Upload to GitHub
-1. Download the ZIP from ChatGPT.
-2. Unzip locally.
-3. Upload **all files/folders** into your repo root:
-   - `index.html`
-   - `assets/`
-   - `data/`
-   - `robots.txt`
-   - `sitemap.xml`
-   - `README.md`
-4. Commit & push.
+Update **only** `data/artist.md` to change the content. The frontmatter fields drive:
 
-## Enable GitHub Pages
-Repo → **Settings** → **Pages**
-- Source: `Deploy from a branch`
-- Branch: `main`
-- Folder: `/ (root)`
-Save.
-
-## Update content (“set & forget”)
-Edit only `data/artist.md`:
-- SEO title/description
-- social links + embeds (Spotify/TikTok)
-- Bandsintown artist id + page link
+- SEO title + description
+- Social links
+- Embeds (YouTube playlist, Spotify, TikTok, Bandsintown)
 - Booking contact details
-- About text (markdown body)
 
-The site reads the file in the browser and updates automatically.
+The markdown body of `artist.md` is used for the About text in the hero section.
 
-## Notes
-- No hardcoded domain names. Canonical is optional and can be added later via `seo.canonical`.
-- Latest release is pulled from **YouTube RSS** for the **music-only topic channel** (with proxy fallbacks for GitHub Pages).
-- If something is missing in `artist.md`, the site shows a safe placeholder and logs a console warning.
+## Local preview
 
-## Custom domain later
-When you’re ready, add a custom domain in GitHub Pages settings. No code changes required.
+Open `index.html` directly in your browser or run any static file server (e.g. `python -m http.server`) and visit `http://localhost:8000`.
+
+## GitHub Pages setup
+
+1. Push this repository to GitHub.
+2. Go to **Settings → Pages**.
+3. Choose **Deploy from a branch**.
+4. Select the `main` branch and `/ (root)` folder.
+
+## Sitemap + robots
+
+- `robots.txt` points to `/sitemap.xml`.
+- Update `sitemap.xml` with your final domain when deploying (the file is intentionally domain-agnostic).
+
+## Data model overview
+
+```yaml
+artist:
+  name: "Animalu"
+  tagline: "Raw emotion. Honest lyrics. No filters."
+
+seo:
+  title: "Animalu – Official Artist Site"
+  description: "..."
+  og_image: "/assets/img/og-image.svg"
+
+social:
+  spotify: "https://..."
+  tiktok: "https://..."
+  instagram: "https://..."
+  facebook: "https://..."
+  youtube: "https://..."
+
+spotify:
+  artist_url: "https://..."
+  artist_embed: "https://open.spotify.com/embed/..."
+
+tiktok:
+  profile_url: "https://www.tiktok.com/@..."
+  unique_id: "..."
+
+youtube:
+  latest_release:
+    channel_id: "UC..."
+    label: "Latest release"
+
+concerts:
+  artist_name: "Animalu"
+  widget_artist_id: "id_..."
+  artist_page: "https://www.bandsintown.com/a/..."
+
+booking:
+  contact_name: "..."
+  email: "..."
+  phone: ""
+  presskit: ""
+```
