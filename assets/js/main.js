@@ -289,6 +289,7 @@ const buildEmbeds = (data) => {
   setEmbedData('tiktok', {
     profile: tiktok.profile_url || '',
     uniqueId: tiktok.unique_id || '',
+    embedType: tiktok.embed_type || '',
   });
 
   setEmbedData('bandsintown', {
@@ -334,7 +335,15 @@ const loadEmbed = (type, target) => {
       target.innerHTML = '<p class="embed-placeholder">TikTok embed not available.</p>';
       return;
     }
-    target.innerHTML = `<blockquote class="tiktok-embed" cite="${payload.profile}" data-unique-id="${payload.uniqueId}" data-embed-type="profile"><section></section></blockquote>`;
+    const embedType = payload.embedType || 'creator';
+    const profileUrl = `${payload.profile}?refer=creator_embed`;
+    target.innerHTML = `
+      <blockquote class="tiktok-embed" cite="${payload.profile}" data-unique-id="${payload.uniqueId}" data-embed-type="${embedType}" style="max-width: 780px; min-width: 288px;">
+        <section>
+          <a target="_blank" href="${profileUrl}">@${payload.uniqueId}</a>
+        </section>
+      </blockquote>
+    `;
     loadTikTokScript();
     return;
   }
