@@ -10,15 +10,31 @@
 </head>
 <body>
 
-<header>
+<header class="hero">
+  <img src="assets/img/artist.jpg" alt="Animalu">
   <h1>Animalu</h1>
+  <p>Underground hip-hop. Raw. Honest. Independent.</p>
   <a class="btn" href="#latest">Latest release</a>
   <a class="btn" href="#booking">Booking</a>
 </header>
 
 <section id="latest">
   <h2>Latest release</h2>
-  <div data-youtube-channel="UCpcGPUVJ-xeLXNtMEkoLJhA"></div>
+  <div class="embed" data-youtube-channel="UCpcGPUVJ-xeLXNtMEkoLJhA"></div>
+</section>
+
+<section id="spotify">
+  <h2>Spotify</h2>
+  <div class="embed">
+    <iframe loading="lazy" height="352"
+      src="https://open.spotify.com/embed/artist/placeholder">
+    </iframe>
+  </div>
+</section>
+
+<section id="tiktok">
+  <h2>TikTok</h2>
+  <p>Follow on TikTok for clips, snippets and behind the scenes.</p>
 </section>
 
 <section id="shows">
@@ -27,37 +43,16 @@
 <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
 <a class="bit-widget-initializer"
 data-artist-name="id_15473994"
-data-events-to-display=""
 data-background-color="rgba(97,86,86,0)"
 data-separator-color="rgba(255,99,99,1)"
 data-text-color="rgba(255,255,255,1)"
-data-font="Arial"
-data-auto-style="true"
-data-button-label-capitalization="capitalize"
-data-header-capitalization="uppercase"
-data-location-capitalization="capitalize"
-data-venue-capitalization="capitalize"
-data-display-local-dates="true"
-data-local-dates-position="tab"
 data-display-past-dates="true"
 data-display-details="false"
 data-display-lineup="false"
 data-display-start-time="false"
-data-social-share-icon="false"
 data-display-limit="all"
-data-date-format="MMM. D, YYYY"
-data-date-orientation="horizontal"
-data-date-border-color="#4A4A4A"
-data-date-border-width="1px"
-data-date-capitalization="capitalize"
-data-date-border-radius="10px"
-data-event-ticket-cta-size="medium"
-data-event-ticket-text="TICKETS"
-data-event-ticket-cta-text-color="#FFFFFF"
 data-event-ticket-cta-bg-color="rgba(208,2,27,1)"
-data-event-ticket-cta-border-color="rgba(208,2,27,1)"
-data-event-ticket-cta-border-width="0px"
-data-event-ticket-cta-border-radius="4px"
+data-event-ticket-cta-text-color="#FFFFFF"
 data-language="en"
 data-layout-breakpoint="900"
 data-app-id="a8edf27028eb2ed38a51403a80531a44"
@@ -67,12 +62,13 @@ data-bit-logo-position="hidden"
 </section>
 
 <section id="booking">
-<h2>Booking</h2>
-<p>Contact via artist.md</p>
+  <h2>Booking / Contact</h2>
+  <p>For bookings and press inquiries, contact via email.</p>
+  <p><a href="mailto:booking@animalu.com">booking@animalu.com</a></p>
 </section>
 
 <footer>
-<p>© Animalu</p>
+  <p>© Animalu</p>
 </footer>
 
 </body>
